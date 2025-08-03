@@ -5,3 +5,11 @@ export async function GET ()
 {
     return json(await articleFileApi.getAllArticles())
 }
+export async function POST ({ request })
+{
+    const formData = await request.formData()
+    const name = formData.get('name')
+    const href = formData.get('href')
+    await articleFileApi.addArticle({ name, href })
+    return json({ success: true })
+}
