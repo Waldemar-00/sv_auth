@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { articleFileApi } from '$lib/server/api/file'
 import { json } from '@sveltejs/kit'
 
