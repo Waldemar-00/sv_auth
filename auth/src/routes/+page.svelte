@@ -12,7 +12,6 @@
         articles = data
         return articles
     }
-    $inspect(articles)
     async function deleteArticle(name)
     {
         const response = await fetch(`/articles/${name}`, { method: 'DELETE' })
@@ -57,6 +56,7 @@
                     await update()
                 if(result.success){
                     isFormSuccess = result.success
+                    articles = await getArticles()
                 }
             }
             }}

@@ -10,7 +10,8 @@ class File
     }
     async getDB()
     {
-        const db = await fsp.readFile( dbPath, 'utf-8' )
+        let db = await fsp.readFile( dbPath, 'utf-8' )
+        if(!db) db ='[{ "name": "Example", "href": "https://example.com"}]'
         return await JSON.parse(db)
     }
     async getAllArticles ()
