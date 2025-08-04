@@ -3,6 +3,7 @@
 	import { enhance } from '$app/forms';
     // @ts-ignore
     let articles = $state([])
+    let articleName = $state('')
     let isFormSuccess = $state(false)
     let deleting = $state(false)
     async function getArticles()
@@ -32,14 +33,19 @@
                         <button onclick={async() => {
                             deleting = true
                             await deleteArticle(article.name)
-                            setTimeout(() => deleting = false, 700)
+                            articleName = article.name
+                            setTimeout(() => {
+                                deleting = false
+                                articleName = ''
+                            }, 700)
+
                         }}>delete</button>
                     </p>
                 </li>
             {/each}
         </ul>
         {:else}
-            <h2 style="color: #667eea;">deleting...</h2>
+            <h2>deleting... <span>{articleName}</span></h2>
         {/if}
         {#if articles.length === 0}
             <button onclick={getArticles}>archive article list</button>
@@ -56,12 +62,14 @@
                     await update()
                 if(result.success){
                     isFormSuccess = result.success
+                    articleName = result.name
                     articles = await getArticles()
                 }
             }
             }}
             onreset={() => {
                 isFormSuccess = false
+                articleName = ''
             }}>
             <div class="form-group">
                 <label for="articleName">Article Name</label>
@@ -74,7 +82,7 @@
             <button type="submit" class="submit-btn">Add Article</button>
         </form>
         {#if isFormSuccess}
-            <p>Article added successfully</p>
+            <p>Article <span>{articleName}</span> added successfully </p>
             <button type="reset" form="addArticleForm">Reset</button>
         {/if}
     </div>
@@ -98,7 +106,12 @@
         margin: 2rem 0;
         text-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
-
+    h2 {
+        color: #667eea;
+    }
+    h2 span {
+        color: #ff6b6b;
+    }
     section {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -271,6 +284,9 @@
         border-radius: 12px;
         margin: 1rem 0;
         text-align: center;
+    }
+    p span {
+        color: #667eea;
     }
 
     /* Archive Button */

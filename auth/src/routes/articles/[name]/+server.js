@@ -5,5 +5,5 @@ export async function DELETE ({ params })
 {
     const name = params.name
     await articleFileApi.deleteArticle(name)
-    return json({ success: true })
+    return json({ success: true, name }, { status: 200 })
 }
